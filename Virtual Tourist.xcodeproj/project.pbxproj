@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C721C1F81C8DFAFD00FAF710 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C721C1F71C8DFAFD00FAF710 /* AppDelegate.swift */; };
-		C721C1FA1C8DFAFD00FAF710 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C721C1F91C8DFAFD00FAF710 /* ViewController.swift */; };
+		C721C1FA1C8DFAFD00FAF710 /* TravelLocationsMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C721C1F91C8DFAFD00FAF710 /* TravelLocationsMapViewController.swift */; };
 		C721C1FD1C8DFAFD00FAF710 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C721C1FB1C8DFAFD00FAF710 /* Main.storyboard */; };
 		C721C2001C8DFAFD00FAF710 /* Virtual_Tourist.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C721C1FE1C8DFAFD00FAF710 /* Virtual_Tourist.xcdatamodeld */; };
 		C721C2021C8DFAFD00FAF710 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C721C2011C8DFAFD00FAF710 /* Assets.xcassets */; };
@@ -19,7 +19,7 @@
 /* Begin PBXFileReference section */
 		C721C1F41C8DFAFD00FAF710 /* Virtual Tourist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Virtual Tourist.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C721C1F71C8DFAFD00FAF710 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		C721C1F91C8DFAFD00FAF710 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		C721C1F91C8DFAFD00FAF710 /* TravelLocationsMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelLocationsMapViewController.swift; sourceTree = "<group>"; };
 		C721C1FC1C8DFAFD00FAF710 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C721C1FF1C8DFAFD00FAF710 /* Virtual_Tourist.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Virtual_Tourist.xcdatamodel; sourceTree = "<group>"; };
 		C721C2011C8DFAFD00FAF710 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -61,7 +61,7 @@
 				C721C1FE1C8DFAFD00FAF710 /* Virtual_Tourist.xcdatamodeld */,
 				C721C20C1C8DFBCF00FAF710 /* CoreDataStackManager.swift */,
 				C721C1F71C8DFAFD00FAF710 /* AppDelegate.swift */,
-				C721C1F91C8DFAFD00FAF710 /* ViewController.swift */,
+				C721C1F91C8DFAFD00FAF710 /* TravelLocationsMapViewController.swift */,
 				C721C1FB1C8DFAFD00FAF710 /* Main.storyboard */,
 				C721C2011C8DFAFD00FAF710 /* Assets.xcassets */,
 				C721C2031C8DFAFD00FAF710 /* LaunchScreen.storyboard */,
@@ -141,7 +141,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C721C1FA1C8DFAFD00FAF710 /* ViewController.swift in Sources */,
+				C721C1FA1C8DFAFD00FAF710 /* TravelLocationsMapViewController.swift in Sources */,
 				C721C20D1C8DFBCF00FAF710 /* CoreDataStackManager.swift in Sources */,
 				C721C2001C8DFAFD00FAF710 /* Virtual_Tourist.xcdatamodeld in Sources */,
 				C721C1F81C8DFAFD00FAF710 /* AppDelegate.swift in Sources */,
