@@ -13,6 +13,7 @@
 		C721C2001C8DFAFD00FAF710 /* Virtual_Tourist.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C721C1FE1C8DFAFD00FAF710 /* Virtual_Tourist.xcdatamodeld */; };
 		C721C2021C8DFAFD00FAF710 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C721C2011C8DFAFD00FAF710 /* Assets.xcassets */; };
 		C721C2051C8DFAFD00FAF710 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C721C2031C8DFAFD00FAF710 /* LaunchScreen.storyboard */; };
+		C721C20D1C8DFBCF00FAF710 /* CoreDataStackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C721C20C1C8DFBCF00FAF710 /* CoreDataStackManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		C721C2011C8DFAFD00FAF710 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C721C2041C8DFAFD00FAF710 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C721C2061C8DFAFD00FAF710 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C721C20C1C8DFBCF00FAF710 /* CoreDataStackManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStackManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,13 +58,14 @@
 		C721C1F61C8DFAFD00FAF710 /* Virtual Tourist */ = {
 			isa = PBXGroup;
 			children = (
+				C721C1FE1C8DFAFD00FAF710 /* Virtual_Tourist.xcdatamodeld */,
+				C721C20C1C8DFBCF00FAF710 /* CoreDataStackManager.swift */,
 				C721C1F71C8DFAFD00FAF710 /* AppDelegate.swift */,
 				C721C1F91C8DFAFD00FAF710 /* ViewController.swift */,
 				C721C1FB1C8DFAFD00FAF710 /* Main.storyboard */,
 				C721C2011C8DFAFD00FAF710 /* Assets.xcassets */,
 				C721C2031C8DFAFD00FAF710 /* LaunchScreen.storyboard */,
 				C721C2061C8DFAFD00FAF710 /* Info.plist */,
-				C721C1FE1C8DFAFD00FAF710 /* Virtual_Tourist.xcdatamodeld */,
 			);
 			path = "Virtual Tourist";
 			sourceTree = "<group>";
@@ -139,6 +142,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C721C1FA1C8DFAFD00FAF710 /* ViewController.swift in Sources */,
+				C721C20D1C8DFBCF00FAF710 /* CoreDataStackManager.swift in Sources */,
 				C721C2001C8DFAFD00FAF710 /* Virtual_Tourist.xcdatamodeld in Sources */,
 				C721C1F81C8DFAFD00FAF710 /* AppDelegate.swift in Sources */,
 			);
