@@ -1,5 +1,5 @@
 //
-//  PhotoAlbumCollectionViewController.swift
+//  PhotoAlbumViewController.swift
 //  Virtual Tourist
 //
 //  Created by Alp Eren Can on 07/03/16.
@@ -8,10 +8,14 @@
 
 import UIKit
 import CoreData
+import MapKit
 
-private let reuseIdentifier = "Cell"
+private let reuseIdentifier = "photoCell"
 
-class PhotoAlbumCollectionViewController: UICollectionViewController, NSFetchedResultsControllerDelegate {
+class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, NSFetchedResultsControllerDelegate {
+    
+    @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var collectionView: UICollectionView!
     
     // The selected indexes array keeps all of the indexPaths for cells that are "selected".
     var selectedIndexes = [NSIndexPath]()
@@ -31,6 +35,7 @@ class PhotoAlbumCollectionViewController: UICollectionViewController, NSFetchedR
         self.collectionView!.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 
         // Do any additional setup after loading the view.
+        
     }
     
     // MARK: - Core Data Convenience
@@ -41,21 +46,22 @@ class PhotoAlbumCollectionViewController: UICollectionViewController, NSFetchedR
 
     // MARK: UICollectionViewDataSource
 
-    override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
 
-    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return 0
+        return 10
     }
 
-    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath)
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! PhotoCollectionViewCell
     
         // Configure the cell
+        cell.photoImageView.image = UIImage(named: "IMG_0521")
     
         return cell
     }
@@ -90,6 +96,12 @@ class PhotoAlbumCollectionViewController: UICollectionViewController, NSFetchedR
     
     }
     */
+    
+    // MARK: UICollectionViewDelegateFlowLayout
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        return CGSizeMake((collectionView.bounds.width - 40) / 3, (collectionView.bounds.width - 40) / 3)
+    }
     
     // MARK: - NSFetchedResultsController
     
