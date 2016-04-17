@@ -21,19 +21,39 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="mWz-z7-pbM">
                                 <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                             </mapView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap Pins to Delete" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w8g-Ro-563">
+                                <rect key="frame" x="0.0" y="540" width="600" height="60"/>
+                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="lgm-px-h6j"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="w8g-Ro-563" secondAttribute="trailing" id="9Us-qO-FuJ"/>
+                            <constraint firstItem="w8g-Ro-563" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="AKx-4w-1do"/>
                             <constraint firstItem="mWz-z7-pbM" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="QnW-ie-4GV"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="mWz-z7-pbM" secondAttribute="bottom" id="hCq-jh-91l"/>
                             <constraint firstAttribute="trailing" secondItem="mWz-z7-pbM" secondAttribute="trailing" id="olY-Bl-9gi"/>
                             <constraint firstItem="mWz-z7-pbM" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="wsV-SN-RJL"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="w8g-Ro-563" secondAttribute="bottom" id="xOK-CG-sMT"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Virtual Tourist" id="Ny2-IV-95J"/>
+                    <navigationItem key="navigationItem" title="Virtual Tourist" id="Ny2-IV-95J">
+                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="UFe-FK-PQj">
+                            <connections>
+                                <action selector="editPins:" destination="BYZ-38-t0r" id="78y-kW-A1a"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="deletePinsLabel" destination="w8g-Ro-563" id="68G-Wz-0En"/>
                         <outlet property="mapView" destination="mWz-z7-pbM" id="MM2-Os-4Oh"/>
-                        <segue destination="yhj-in-y2L" kind="show" identifier="showPhotos" id="V2z-x8-uHC"/>
+                        <segue destination="yhj-in-y2L" kind="show" identifier="showPhotoAlbum" id="V2z-x8-uHC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

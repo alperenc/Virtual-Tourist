@@ -8,12 +8,16 @@
 
 import UIKit
 import MapKit
+import CoreData
 
-class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate {
+class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsControllerDelegate {
     
     // MARK: Properties
 
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var deletePinsLabel: UILabel!
+    
+    var editingMode: Bool = false
     
     // MARK: Life Cycle
     
@@ -21,7 +25,13 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
     }
+    
+    // MARK: Actions
 
+    @IBAction func editPins(sender: UIBarButtonItem) {
+        
+    }
+    
     // MARK: - MKMapViewDelegate
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
@@ -31,12 +41,19 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate {
         
         if pinView == nil {
             pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+            pinView?.canShowCallout = false
             pinView!.pinTintColor = UIColor.redColor()
         } else {
             pinView!.annotation = annotation
         }
         
         return pinView
+    }
+    
+    func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
+        if editingMode {
+            
+        }
     }
 
 
