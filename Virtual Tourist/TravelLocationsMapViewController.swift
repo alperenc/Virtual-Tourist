@@ -16,19 +16,51 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
 
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var deletePinsLabel: UILabel!
+    @IBOutlet weak var addPinGestureRecognizer: UILongPressGestureRecognizer!
     
+    var currentAnnotation = MKPointAnnotation()
     var editingMode: Bool = false
     
     // MARK: Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
     }
     
     // MARK: Actions
 
     @IBAction func editPins(sender: UIBarButtonItem) {
+        
+    }
+    
+    @IBAction func addPin(sender: UILongPressGestureRecognizer) {
+        
+        switch sender.state {
+        case .Began:
+            let location = sender.locationInView(mapView)
+            let locationCoordinate = mapView.convertPoint(location, toCoordinateFromView: mapView)
+            
+            currentAnnotation.coordinate = locationCoordinate
+            mapView.addAnnotation(currentAnnotation)
+            
+        case .Changed:
+            let location = sender.locationInView(mapView)
+            let locationCoordinate = mapView.convertPoint(location, toCoordinateFromView: mapView)
+            
+            currentAnnotation.coordinate = locationCoordinate
+            
+        case .Ended:
+            let location = sender.locationInView(mapView)
+            let locationCoordinate = mapView.convertPoint(location, toCoordinateFromView: mapView)
+            
+            currentAnnotation.coordinate = locationCoordinate
+            currentAnnotation = MKPointAnnotation()
+            
+        default:
+            return
+            
+        }
         
     }
     

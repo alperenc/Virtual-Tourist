@@ -20,6 +20,10 @@
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="mWz-z7-pbM">
                                 <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="2oh-Pw-xch" appends="YES" id="G1a-NJ-rAY"/>
+                                </connections>
                             </mapView>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap Pins to Delete" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w8g-Ro-563">
                                 <rect key="frame" x="0.0" y="540" width="600" height="60"/>
@@ -51,12 +55,18 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="addPinGestureRecognizer" destination="2oh-Pw-xch" id="XnM-6M-Rum"/>
                         <outlet property="deletePinsLabel" destination="w8g-Ro-563" id="68G-Wz-0En"/>
                         <outlet property="mapView" destination="mWz-z7-pbM" id="MM2-Os-4Oh"/>
                         <segue destination="yhj-in-y2L" kind="show" identifier="showPhotoAlbum" id="V2z-x8-uHC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="2oh-Pw-xch">
+                    <connections>
+                        <action selector="addPin:" destination="BYZ-38-t0r" id="WKP-gd-cHx"/>
+                    </connections>
+                </pongPressGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="940" y="-353"/>
         </scene>

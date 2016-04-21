@@ -18,8 +18,6 @@ class Pin: NSManagedObject {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
     }
     
-    // 
-    
     init(latitude: Double, longitude: Double, context: NSManagedObjectContext) {
         
         // Core Data
