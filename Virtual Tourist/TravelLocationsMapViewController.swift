@@ -26,7 +26,47 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Delegate initialization
+        mapView.delegate = self
+        fetchedResultsController.delegate = self
+        
+        // Perform fetch
+        do {
+            try fetchedResultsController.performFetch()
+        } catch {}
+        
+        // Add fetched pins on tha map
+        if let pins = fetchedResultsController.fetchedObjects as? [Pin] {
+            for pin in pins {
+                let annotation = MKPointAnnotation()
+                annotation.coordinate = CLLocationCoordinate2DMake(pin.latitude, pin.longitude)
+                
+                mapView.addAnnotation(annotation)
+            }
+        }
+        
     }
+    
+    // MARK: Core Data Convenience
+    
+    var sharedContext: NSManagedObjectContext {
+        return CoreDataStackManager.sharedInstance().managedObjectContext
+    }
+    
+    lazy var fetchedResultsController: NSFetchedResultsController = {
+        
+        let fetchRequest = NSFetchRequest(entityName: "Pin")
+        
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "latitude", ascending: true)]
+        
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                                                  managedObjectContext: self.sharedContext,
+                                                                  sectionNameKeyPath: nil,
+                                                                  cacheName: nil)
+        
+        return fetchedResultsController
+        
+    }()
     
     // MARK: Actions
 
@@ -56,6 +96,9 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
             
             currentAnnotation.coordinate = locationCoordinate
             currentAnnotation = MKPointAnnotation()
+            
+            let pin = Pin(latitude: locationCoordinate.latitude, longitude: locationCoordinate.longitude, context: sharedContext)
+            CoreDataStackManager.sharedInstance().saveContext()
             
         default:
             return
@@ -87,7 +130,31 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
             
         }
     }
-
+    
+    // MARK: - NSFetchedResultsControllerDelegate
+    
+    func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
+        
+        guard let pin = anObject as? Pin else {
+            return
+        }
+        
+        switch type {
+        case .Delete:
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = CLLocationCoordinate2DMake(pin.latitude, pin.longitude)
+            mapView.removeAnnotation(annotation)
+            
+        case .Insert:
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = CLLocationCoordinate2DMake(pin.latitude, pin.longitude)
+            mapView.addAnnotation(annotation)
+            
+        default:
+            return
+            
+        }
+    }
 
 }
 
