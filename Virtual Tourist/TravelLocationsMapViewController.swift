@@ -19,6 +19,7 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     @IBOutlet weak var addPinGestureRecognizer: UILongPressGestureRecognizer!
     
     var currentAnnotation = MKPointAnnotation()
+    
     var editingMode: Bool = false
     
     // MARK: Life Cycle
@@ -71,7 +72,17 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     // MARK: Actions
 
     @IBAction func editPins(sender: UIBarButtonItem) {
+        editingMode = editingMode ? false : true
         
+        if editingMode {
+            sender.title = "Done"
+            sender.style = .Done
+            deletePinsLabel.hidden = false
+        } else {
+            sender.title = "Edit"
+            sender.style = .Plain
+            deletePinsLabel.hidden = true
+        }
     }
     
     @IBAction func addPin(sender: UILongPressGestureRecognizer) {
@@ -107,6 +118,13 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
         
     }
     
+    // MARK: Navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "showPhotoAlbum" {
+            let photoAlbumVC = segue.destinationViewController as! PhotoAlbumViewController
+        }
+    }
+    
     // MARK: - MKMapViewDelegate
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
@@ -126,8 +144,20 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     }
     
     func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
+        
+        guard let annotation = view.annotation else {
+            return
+        }
+        
         if editingMode {
+            let pin = Pin(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude, context: sharedContext)
+            sharedContext.deleteObject(pin)
+            CoreDataStackManager.sharedInstance().saveContext()
             
+            mapView.removeAnnotation(annotation)
+            
+        } else {
+            performSegueWithIdentifier("showPhotoAlbum", sender: self)
         }
     }
     
