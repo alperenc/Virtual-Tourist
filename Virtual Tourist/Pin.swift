@@ -8,9 +8,9 @@
 
 import Foundation
 import CoreData
+import MapKit
 
-
-class Pin: NSManagedObject {
+class Pin: NSManagedObject, MKAnnotation {
     
     // Standard Core Data init method
     
@@ -28,6 +28,17 @@ class Pin: NSManagedObject {
         self.latitude = latitude
         self.longitude = longitude
         
+    }
+    
+    // MARK: MKAnnotation
+    var coordinate: CLLocationCoordinate2D {
+        set (newValue) {
+            latitude = newValue.latitude
+            longitude = newValue.longitude
+        }
+        get {
+            return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        }
     }
 
 }

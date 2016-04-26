@@ -38,12 +38,8 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
         
         // Add fetched pins on tha map
         if let pins = fetchedResultsController.fetchedObjects as? [Pin] {
-            for pin in pins {
-                let annotation = MKPointAnnotation()
-                annotation.coordinate = CLLocationCoordinate2DMake(pin.latitude, pin.longitude)
-                
-                mapView.addAnnotation(annotation)
-            }
+            mapView.addAnnotations(pins)
+            
         }
         
     }
@@ -145,16 +141,13 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     
     func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
         
-        guard let annotation = view.annotation else {
+        guard let pin = view.annotation as? Pin else {
             return
         }
         
         if editingMode {
-            let pin = Pin(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude, context: sharedContext)
             sharedContext.deleteObject(pin)
             CoreDataStackManager.sharedInstance().saveContext()
-            
-            mapView.removeAnnotation(annotation)
             
         } else {
             performSegueWithIdentifier("showPhotoAlbum", sender: self)
@@ -171,14 +164,10 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
         
         switch type {
         case .Delete:
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = CLLocationCoordinate2DMake(pin.latitude, pin.longitude)
-            mapView.removeAnnotation(annotation)
+            mapView.removeAnnotation(pin)
             
         case .Insert:
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = CLLocationCoordinate2DMake(pin.latitude, pin.longitude)
-            mapView.addAnnotation(annotation)
+            mapView.addAnnotation(pin)
             
         default:
             return
