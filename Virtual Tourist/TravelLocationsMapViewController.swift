@@ -115,6 +115,7 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     }
     
     // MARK: Navigation
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showPhotoAlbum" {
             let photoAlbumVC = segue.destinationViewController as! PhotoAlbumViewController

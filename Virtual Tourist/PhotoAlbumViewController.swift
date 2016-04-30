@@ -17,6 +17,8 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var collectionView: UICollectionView!
     
+    var pin: Pin!
+    
     // The selected indexes array keeps all of the indexPaths for cells that are "selected".
     var selectedIndexes = [NSIndexPath]()
     
@@ -32,7 +34,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         // self.clearsSelectionOnViewWillAppear = false
 
         // Register cell classes
-        self.collectionView!.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+//        self.collectionView!.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 
         // Do any additional setup after loading the view.
         
@@ -47,13 +49,11 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     // MARK: UICollectionViewDataSource
 
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of items
         return 10
     }
 
@@ -61,7 +61,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! PhotoCollectionViewCell
     
         // Configure the cell
-        cell.photoImageView.image = UIImage(named: "IMG_0521")
+//        cell.photoImageView.image = UIImage(named: "IMG_0521")
     
         return cell
     }
