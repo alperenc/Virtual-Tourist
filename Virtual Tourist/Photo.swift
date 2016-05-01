@@ -17,7 +17,7 @@ class Photo: NSManagedObject {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
     }
     
-    init(dictionary: [String: AnyObject], context: NSManagedObjectContext) {
+    init(pin: Pin, dictionary: [String: AnyObject], context: NSManagedObjectContext) {
         
         // Core Data
         let entity = NSEntityDescription.entityForName("Photo", inManagedObjectContext: context)!
@@ -27,6 +27,7 @@ class Photo: NSManagedObject {
         id = dictionary["id"] as! String
         title = dictionary["title"] as! String
         imagePath = dictionary["url_m"] as! String
+        location = pin
         
     }
 

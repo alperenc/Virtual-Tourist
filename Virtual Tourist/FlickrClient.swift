@@ -35,7 +35,7 @@ class FlickrClient: NSObject {
     
     // MARK: GET
     
-    func taskForGETMethod(method: String, parameters: [String: AnyObject], completion: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
+    func get(parameters: [String: AnyObject], completion: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
         
         /* 1. Set the parameters */
         var mutableParameters = parameters
@@ -147,7 +147,7 @@ extension FlickrClient {
         // MARK: URL
         static let BaseURL = "https://api.flickr.com/services/rest/"
         
-        // MARK: Parameters
+        // MARK: Parameter Constants
         static let JSON = "json"
         static let Extras = "url_m"
         static let SafeSearch = "1"
@@ -172,33 +172,37 @@ extension FlickrClient {
         static let SafeSearch = "safe_search"
         static let Extras = "extras"
         static let Format = "format"
-    }
-    
-    // MARK: URL Keys
-    
-    struct URLKeys {
-        
-        // MARK: Server ID
-        static let ServerID = "server-id"
-        
-        // MARK: Photo ID
-        static let PhotoID = "id"
-        
-        // MARK: Photo Secret
-        static let PhotoSecret = "secret"
+        static let NoJSONCallback = "nojsoncallback"
+
     }
     
     // MARK: JSON Repsonse Keys
     
     struct JSONResponseKeys {
         
-        // MARK: General
-        static let StatusMessage = "status_message"
-        static let StatusCode = "status_code"
-        
         // MARK: Photos
+        static let Photos = "photos"
+        static let Total = "total"
+        
+        // MARK: Photo
+        static let Photo = "photo"
         static let PhotoID = "id"
         static let PhotoTitle = "title"
         static let PhotoDomain = "url_m"
+    }
+    
+    // MARK: Bounding Box Constants
+    
+    struct BoundingBox {
+        
+        // MARK: Lat/Lon Min&Max
+        
+        static let LatMin = -90.0
+        static let LatMax = 90.0
+        static let LonMin = -90.0
+        static let LonMax = 90.0
+        
+        // MARK: Bounding Box Edge Length
+        static let EdgeLength = 1.0
     }
 }
