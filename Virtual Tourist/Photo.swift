@@ -6,16 +6,19 @@
 //  Copyright © 2016 Alp Eren Can. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import CoreData
 
 
 class Photo: NSManagedObject {
 
     // Standard Core Data init method
+    
     override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
     }
+    
+    // Init with dictionary
     
     init(pin: Pin, dictionary: [String: AnyObject], context: NSManagedObjectContext) {
         
@@ -23,12 +26,22 @@ class Photo: NSManagedObject {
         let entity = NSEntityDescription.entityForName("Photo", inManagedObjectContext: context)!
         super.init(entity: entity, insertIntoManagedObjectContext: context)
         
-        // Property initialization
+        // Dictionary
         id = dictionary["id"] as! String
         title = dictionary["title"] as! String
         imagePath = dictionary["url_m"] as! String
         location = pin
         
+    }
+    
+    var image: UIImage? {
+        get {
+            return FlickrClient.Caches.imageCache.imageWithIdentifier(imagePath)
+        }
+        
+        set {
+            FlickrClient.Caches.imageCache.storeImage(image, withIdentifier: imagePath)
+        }
     }
 
 }

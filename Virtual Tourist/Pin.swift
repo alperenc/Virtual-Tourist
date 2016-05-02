@@ -6,7 +6,7 @@
 //  Copyright © 2016 Alp Eren Can. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import CoreData
 import MapKit
 
@@ -17,6 +17,8 @@ class Pin: NSManagedObject, MKAnnotation {
     override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
     }
+    
+    // Init with lat & lon
     
     init(latitude: Double, longitude: Double, context: NSManagedObjectContext) {
         
@@ -31,6 +33,7 @@ class Pin: NSManagedObject, MKAnnotation {
     }
     
     // MARK: MKAnnotation
+    
     var coordinate: CLLocationCoordinate2D {
         set (newValue) {
             latitude = newValue.latitude

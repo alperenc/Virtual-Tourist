@@ -21,30 +21,38 @@ extension FlickrClient {
         
         get(parameters) { (result, error) in
             
-            guard let photosDictionary = result[JSONResponseKeys.Photos] as? [String: AnyObject] else {
+            guard let data = result as? NSData else {
                 completion(success: false, error: error)
                 return
             }
             
-            guard let totalPhotos = photosDictionary[JSONResponseKeys.Total] as? String where Int(totalPhotos) > 0 else {
-                let userInfo = [NSLocalizedDescriptionKey : "No photo is found!"]
-                completion(success: false, error: NSError(domain: "noPhoto", code: 0, userInfo: userInfo))
-                return
+            FlickrClient.parseJSONWithCompletionHandler(data) { (result, error) in
+                guard let photosDictionary = result[JSONResponseKeys.Photos] as? [String: AnyObject] else {
+                    completion(success: false, error: error)
+                    return
+                }
+                
+                guard let totalPhotos = photosDictionary[JSONResponseKeys.Total] as? String where Int(totalPhotos) > 0 else {
+                    let userInfo = [NSLocalizedDescriptionKey: "No photo is found!"]
+                    completion(success: false, error: NSError(domain: "noPhoto", code: 0, userInfo: userInfo))
+                    return
+                }
+                
+                guard let photosArray = photosDictionary[JSONResponseKeys.Photo] as? [[String: AnyObject]] else {
+                    let userInfo = [NSLocalizedDescriptionKey: "No such key: photo"]
+                    completion(success: false, error: NSError(domain: "noSuchKey", code: 1, userInfo: userInfo))
+                    return
+                }
+                
+                for photoDictionary in photosArray {
+                    let _ = Photo(pin: pin, dictionary: photoDictionary, context: CoreDataStackManager.sharedInstance().managedObjectContext)
+                }
+                
+                CoreDataStackManager.sharedInstance().saveContext()
+                
+                completion(success: true, error: nil)
+
             }
-            
-            guard let photos = photosDictionary[JSONResponseKeys.Photo] as? [[String: AnyObject]] else {
-                let userInfo = [NSLocalizedDescriptionKey : "No such key: photo"]
-                completion(success: false, error: NSError(domain: "noSuchKey", code: 1, userInfo: userInfo))
-                return
-            }
-            
-            for photoDictionary in photos {
-                let _ = Photo(pin: pin, dictionary: photoDictionary, context: CoreDataStackManager.sharedInstance().managedObjectContext)
-            }
-            
-            CoreDataStackManager.sharedInstance().saveContext()
-            
-            completion(success: true, error: nil)
             
         }
         

@@ -33,6 +33,12 @@ class FlickrClient: NSObject {
         return Singleton.sharedInstance
     }
     
+    // MARK: - Shared Image Cache
+    
+    struct Caches {
+        static let imageCache = ImageCache()
+    }
+    
     // MARK: GET
     
     func get(parameters: [String: AnyObject], completion: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
@@ -44,6 +50,17 @@ class FlickrClient: NSObject {
         /* 2/3. Build the URL and configure the request */
         let urlString = Constants.BaseURL + FlickrClient.escapedParameters(mutableParameters)
         let url = NSURL(string: urlString)!
+        let request = NSURLRequest(URL: url)
+        
+        return makeRequest(request, completion: completion)
+    }
+    
+    // MARK: Get Image
+    
+    func getImage(imagePath: String, completion: (imageData: AnyObject!, error: NSError?)-> Void) -> NSURLSessionTask {
+        
+        let url = NSURL(string: imagePath)!
+        
         let request = NSURLRequest(URL: url)
         
         return makeRequest(request, completion: completion)
@@ -88,7 +105,7 @@ class FlickrClient: NSObject {
             }
             
             // Return data in completion
-            FlickrClient.parseJSONWithCompletionHandler(data, completionHandler: completion)
+            completion(result: data, error: nil)
         }
         
         // Start the request
