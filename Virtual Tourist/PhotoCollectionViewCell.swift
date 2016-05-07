@@ -22,6 +22,8 @@ class PhotoCollectionViewCell: UICollectionViewCell {
     }
     
     override func prepareForReuse() {
+        photoImageView.alpha = 1.0
+        
         if photoImageView.image != nil {
             photoImageView.image = nil
         }

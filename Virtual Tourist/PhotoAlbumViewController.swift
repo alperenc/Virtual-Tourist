@@ -16,6 +16,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var bottomButton: UIButton!
     
     var pin: Pin!
     
@@ -44,6 +45,53 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         
     }
     
+    //MARK: Actions and Helpers
+    
+    @IBAction func bottomButtonPressed() {
+        
+        if selectedIndexes.isEmpty {
+            deleteAllPhotos()
+        } else {
+            deleteSelectedPhotos()
+        }
+        
+    }
+    
+    func deleteAllPhotos() {
+        
+        for photo in fetchedResultsController.fetchedObjects as! [Photo] {
+            sharedContext.deleteObject(photo)
+        }
+        
+        CoreDataStackManager.sharedInstance().saveContext()
+        
+        FlickrClient.sharedInstance().getPhotosForPin(pin) { (success, error) in
+        }
+    }
+    
+    func deleteSelectedPhotos() {
+        var photosToDelete = [Photo]()
+        
+        for indexPath in selectedIndexes {
+            photosToDelete.append(fetchedResultsController.objectAtIndexPath(indexPath) as! Photo)
+        }
+        
+        for photo in photosToDelete {
+            sharedContext.deleteObject(photo)
+        }
+        
+        selectedIndexes = [NSIndexPath]()
+    }
+    
+    func updateBottomButton() {
+        
+        if selectedIndexes.count > 0 {
+            bottomButton.setTitle("Remove Selected Photos", forState: .Normal)
+        } else {
+            bottomButton.setTitle("New Collection", forState: .Normal)
+        }
+        
+    }
     // MARK: - Core Data Convenience
     
     var sharedContext: NSManagedObjectContext {
@@ -76,6 +124,20 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
+        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! PhotoCollectionViewCell
+        
+        // Whenever a cell is tapped we will toggle its presence in the selectedIndexes array
+        if let index = selectedIndexes.indexOf(indexPath) {
+            selectedIndexes.removeAtIndex(index)
+            cell.photoImageView.alpha = 1.0
+        } else {
+            selectedIndexes.append(indexPath)
+            cell.photoImageView.alpha = 0.5
+        }
+        
+        // And update the buttom button
+        updateBottomButton()
+        
     }
     
     // MARK: UICollectionViewDelegateFlowLayout
@@ -103,12 +165,14 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     // Whenever changes are made to Core Data the following three methods are invoked. This first method is used to create
     // three fresh arrays to record the index paths that will be changed.
     func controllerWillChangeContent(controller: NSFetchedResultsController) {
+        
         // We are about to handle some new changes. Start out with empty arrays for each change type
         insertedIndexPaths = [NSIndexPath]()
         deletedIndexPaths = [NSIndexPath]()
         updatedIndexPaths = [NSIndexPath]()
         
         print("in controllerWillChangeContent")
+        
     }
     
     // The second method may be called multiple times, once for each Photo object that is added, deleted, or changed.
@@ -143,6 +207,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
             print("Move an item. We don't expect to see this in this app.")
             break
         }
+        
     }
     
     // This method is invoked after all of the changed in the current batch have been collected
@@ -170,6 +235,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
             }
             
             }, completion: nil)
+        
     }
     
     // MARK: Configure Cell
