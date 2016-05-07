@@ -16,7 +16,8 @@ extension FlickrClient {
             ParameterKeys.BoundingBox: createBoundingBoxString(latitude: pin.latitude, longitude: pin.longitude),
             ParameterKeys.Extras: Constants.Extras,
             ParameterKeys.Format: Constants.JSON,
-            ParameterKeys.SafeSearch: Constants.SafeSearch
+            ParameterKeys.SafeSearch: Constants.SafeSearch,
+            ParameterKeys.NoJSONCallback: Constants.NoJSONCallback
         ]
         
         get(parameters) { (result, error) in
@@ -27,6 +28,7 @@ extension FlickrClient {
             }
             
             FlickrClient.parseJSONWithCompletionHandler(data) { (result, error) in
+                
                 guard let photosDictionary = result[JSONResponseKeys.Photos] as? [String: AnyObject] else {
                     completion(success: false, error: error)
                     return

@@ -31,7 +31,8 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
         mapView.delegate = self
         fetchedResultsController.delegate = self
         
-        // Perform fetch
+        // Start the fetched results controller
+        
         do {
             try fetchedResultsController.performFetch()
         } catch {}
@@ -49,6 +50,8 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     var sharedContext: NSManagedObjectContext {
         return CoreDataStackManager.sharedInstance().managedObjectContext
     }
+    
+    // MARK: NSFetchedResultsController
     
     lazy var fetchedResultsController: NSFetchedResultsController = {
         
@@ -102,10 +105,18 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
             let locationCoordinate = mapView.convertPoint(location, toCoordinateFromView: mapView)
             
             currentAnnotation.coordinate = locationCoordinate
-            currentAnnotation = MKPointAnnotation()
             
             let pin = Pin(latitude: locationCoordinate.latitude, longitude: locationCoordinate.longitude, context: sharedContext)
             CoreDataStackManager.sharedInstance().saveContext()
+            
+            mapView.removeAnnotation(currentAnnotation)
+            currentAnnotation = MKPointAnnotation()
+            
+            mapView.addAnnotation(pin)
+            
+            FlickrClient.sharedInstance().getPhotosForPin(pin) { (success, error) in
+                
+            }
             
         default:
             return
@@ -119,6 +130,7 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showPhotoAlbum" {
             let photoAlbumVC = segue.destinationViewController as! PhotoAlbumViewController
+            photoAlbumVC.pin = sender as! Pin
         }
     }
     
@@ -143,6 +155,7 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
         
         guard let pin = view.annotation as? Pin else {
+            print("Selected annotation is not a Pin!")
             return
         }
         
@@ -151,7 +164,7 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
             CoreDataStackManager.sharedInstance().saveContext()
             
         } else {
-            performSegueWithIdentifier("showPhotoAlbum", sender: self)
+            performSegueWithIdentifier("showPhotoAlbum", sender: pin)
         }
     }
     

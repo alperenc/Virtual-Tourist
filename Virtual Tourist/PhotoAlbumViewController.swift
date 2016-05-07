@@ -29,78 +29,59 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Register cell classes
-//        self.collectionView!.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-
-        // Do any additional setup after loading the view.
+        
+        // Add annotation
+        mapView.addAnnotation(pin)
+        mapView.centerCoordinate = pin.coordinate
+        
+        // Start the fetched results controller
+        
+        do {
+            try fetchedResultsController.performFetch()
+        } catch let error as NSError {
+            print("Error performing initial fetch: \(error)")
+        }
         
     }
     
     // MARK: - Core Data Convenience
     
-    lazy var sharedContext: NSManagedObjectContext =  {
+    var sharedContext: NSManagedObjectContext {
         return CoreDataStackManager.sharedInstance().managedObjectContext
-    }()
-
-    // MARK: UICollectionViewDataSource
-
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return 1
     }
 
+    // MARK: UICollectionViewDataSource
+    
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        return self.fetchedResultsController.sections?.count ?? 0
+    }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        let sectionInfo = fetchedResultsController.sections![section]
+        return sectionInfo.numberOfObjects
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! PhotoCollectionViewCell
+        cell.activityIndicator.hidesWhenStopped = true
+        cell.activityIndicator.startAnimating()
     
         // Configure the cell
-//        cell.photoImageView.image = UIImage(named: "IMG_0521")
+        configureCell(cell, atIndexPath: indexPath)
     
         return cell
     }
 
     // MARK: UICollectionViewDelegate
 
-    /*
-    // Uncomment this method to specify if the specified item should be highlighted during tracking
-    override func collectionView(collectionView: UICollectionView, shouldHighlightItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return true
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        
     }
-    */
-
-    /*
-    // Uncomment this method to specify if the specified item should be selected
-    override func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-    override func collectionView(collectionView: UICollectionView, shouldShowMenuForItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return false
-    }
-
-    override func collectionView(collectionView: UICollectionView, canPerformAction action: Selector, forItemAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
-        return false
-    }
-
-    override func collectionView(collectionView: UICollectionView, performAction action: Selector, forItemAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) {
-    
-    }
-    */
     
     // MARK: UICollectionViewDelegateFlowLayout
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return CGSizeMake((collectionView.bounds.width - 40) / 3, (collectionView.bounds.width - 40) / 3)
+        return CGSizeMake((collectionView.bounds.width - 32) / 3, (collectionView.bounds.width - 32) / 3)
     }
     
     // MARK: - NSFetchedResultsController
@@ -108,7 +89,8 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     lazy var fetchedResultsController: NSFetchedResultsController = {
         
         let fetchRequest = NSFetchRequest(entityName: "Photo")
-        fetchRequest.sortDescriptors = []
+        fetchRequest.predicate = NSPredicate(format: "location == %@", self.pin)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
         
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.sharedContext, sectionNameKeyPath: nil, cacheName: nil)
         fetchedResultsController.delegate = self
@@ -188,6 +170,28 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
             }
             
             }, completion: nil)
+    }
+    
+    // MARK: Configure Cell
+    
+    func configureCell(cell: PhotoCollectionViewCell, atIndexPath indexPath: NSIndexPath) {
+        
+        let photo = fetchedResultsController.objectAtIndexPath(indexPath) as! Photo
+        
+        if photo.image != nil {
+            cell.photoImageView.image = photo.image
+            cell.activityIndicator.stopAnimating()
+        } else {
+            cell.taskToCancel = FlickrClient.sharedInstance().getImage(photo.imagePath) { (imageData, error) in
+                if let imageData = imageData as? NSData {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        cell.photoImageView.image = UIImage(data: imageData)
+                        cell.activityIndicator.stopAnimating()
+                    }
+                }
+            }
+        }
+        
     }
 
 }
