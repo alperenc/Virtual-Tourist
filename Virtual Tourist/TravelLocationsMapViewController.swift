@@ -49,29 +49,6 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
         
     }
     
-    // MARK: Core Data Convenience
-    
-    var sharedContext: NSManagedObjectContext {
-        return CoreDataStackManager.sharedInstance().managedObjectContext
-    }
-    
-    // MARK: NSFetchedResultsController
-    
-    lazy var fetchedResultsController: NSFetchedResultsController = {
-        
-        let fetchRequest = NSFetchRequest(entityName: "Pin")
-        
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "latitude", ascending: true)]
-        
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
-                                                                  managedObjectContext: self.sharedContext,
-                                                                  sectionNameKeyPath: nil,
-                                                                  cacheName: nil)
-        
-        return fetchedResultsController
-        
-    }()
-    
     // MARK: Actions and Helpers
 
     @IBAction func editPins(sender: UIBarButtonItem) {
@@ -244,7 +221,29 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
         saveMapRegion()
     }
     
-    // MARK: - NSFetchedResultsControllerDelegate
+    // MARK: - Core Data Convenience
+    
+    var sharedContext: NSManagedObjectContext {
+        return CoreDataStackManager.sharedInstance().managedObjectContext
+    }
+    
+    // MARK: - NSFetchedResultsController
+    
+    lazy var fetchedResultsController: NSFetchedResultsController = {
+        
+        let fetchRequest = NSFetchRequest(entityName: "Pin")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "latitude", ascending: true)]
+        
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                                                  managedObjectContext: self.sharedContext,
+                                                                  sectionNameKeyPath: nil,
+                                                                  cacheName: nil)
+        
+        return fetchedResultsController
+        
+    }()
+    
+    // MARK: NSFetchedResultsControllerDelegate
     
     func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
         

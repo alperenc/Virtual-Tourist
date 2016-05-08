@@ -14,6 +14,8 @@ private let reuseIdentifier = "photoCell"
 
 class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, NSFetchedResultsControllerDelegate {
     
+    // MARK: Properties
+    
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var bottomButton: UIButton!
@@ -27,6 +29,8 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     var insertedIndexPaths: [NSIndexPath]!
     var deletedIndexPaths: [NSIndexPath]!
     var updatedIndexPaths: [NSIndexPath]!
+    
+    // MARK: Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,13 +96,8 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         }
         
     }
-    // MARK: - Core Data Convenience
-    
-    var sharedContext: NSManagedObjectContext {
-        return CoreDataStackManager.sharedInstance().managedObjectContext
-    }
 
-    // MARK: UICollectionViewDataSource
+    // MARK: - UICollectionViewDataSource
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return self.fetchedResultsController.sections?.count ?? 0
@@ -144,6 +143,12 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         return CGSizeMake((collectionView.bounds.width - 32) / 3, (collectionView.bounds.width - 32) / 3)
+    }
+    
+    // MARK: - Core Data Convenience
+    
+    var sharedContext: NSManagedObjectContext {
+        return CoreDataStackManager.sharedInstance().managedObjectContext
     }
     
     // MARK: - NSFetchedResultsController
