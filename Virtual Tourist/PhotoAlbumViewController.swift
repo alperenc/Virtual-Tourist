@@ -33,7 +33,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         
         // Add annotation
         mapView.addAnnotation(pin)
-        mapView.centerCoordinate = pin.coordinate
+        mapView.setRegion(MKCoordinateRegion(center: pin.coordinate, span: MKCoordinateSpanMake(5.0, 5.0)), animated: true)
         
         // Start the fetched results controller
         

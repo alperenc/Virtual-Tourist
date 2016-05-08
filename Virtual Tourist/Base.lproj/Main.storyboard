@@ -89,7 +89,7 @@
                                 </constraints>
                             </mapView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="3a3-w3-hWG">
-                                <rect key="frame" x="0.0" y="185" width="600" height="415"/>
+                                <rect key="frame" x="0.0" y="186" width="600" height="370"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="8" minimumInteritemSpacing="8" id="jXQ-NG-3gt">
                                     <size key="itemSize" width="100" height="100"/>
@@ -145,12 +145,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="9bs-lD-iGH" firstAttribute="top" secondItem="3a3-w3-hWG" secondAttribute="bottom" id="8Zn-Su-e3Y"/>
                             <constraint firstItem="20z-XP-Otm" firstAttribute="leading" secondItem="3a3-w3-hWG" secondAttribute="leading" id="Bkg-hR-1NO"/>
                             <constraint firstAttribute="trailing" secondItem="3a3-w3-hWG" secondAttribute="trailing" id="Dvd-14-CeI"/>
                             <constraint firstItem="3a3-w3-hWG" firstAttribute="leading" secondItem="Gcw-iW-7BR" secondAttribute="leading" id="OZq-KS-AQG"/>
                             <constraint firstItem="Tkq-mD-Q57" firstAttribute="leading" secondItem="Gcw-iW-7BR" secondAttribute="leading" id="aFO-Wt-wSl"/>
-                            <constraint firstItem="3a3-w3-hWG" firstAttribute="top" secondItem="20z-XP-Otm" secondAttribute="bottom" constant="-1" id="fRG-wT-CZW"/>
+                            <constraint firstItem="Tkq-mD-Q57" firstAttribute="top" secondItem="3a3-w3-hWG" secondAttribute="bottom" id="c64-q8-CtO"/>
+                            <constraint firstItem="3a3-w3-hWG" firstAttribute="top" secondItem="20z-XP-Otm" secondAttribute="bottom" id="fRG-wT-CZW"/>
                             <constraint firstAttribute="trailing" secondItem="Tkq-mD-Q57" secondAttribute="trailing" id="kDh-wK-sN9"/>
                             <constraint firstItem="9bs-lD-iGH" firstAttribute="top" secondItem="Tkq-mD-Q57" secondAttribute="bottom" id="odI-WN-v7S"/>
                             <constraint firstItem="20z-XP-Otm" firstAttribute="trailing" secondItem="3a3-w3-hWG" secondAttribute="trailing" id="sdd-56-8di"/>

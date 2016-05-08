@@ -169,6 +169,8 @@ extension FlickrClient {
         static let Extras = "url_m"
         static let SafeSearch = "1"
         static let NoJSONCallback = "1"
+        static let Page = Int(arc4random_uniform(100))
+        static let PerPage = 25
     }
     
     // MARK: Methods
@@ -190,6 +192,8 @@ extension FlickrClient {
         static let Extras = "extras"
         static let Format = "format"
         static let NoJSONCallback = "nojsoncallback"
+        static let Page = "page"
+        static let PerPage = "per_page"
 
     }
     

@@ -17,7 +17,9 @@ extension FlickrClient {
             ParameterKeys.Extras: Constants.Extras,
             ParameterKeys.Format: Constants.JSON,
             ParameterKeys.SafeSearch: Constants.SafeSearch,
-            ParameterKeys.NoJSONCallback: Constants.NoJSONCallback
+            ParameterKeys.NoJSONCallback: Constants.NoJSONCallback,
+            ParameterKeys.Page: Constants.Page,
+            ParameterKeys.PerPage: Constants.PerPage
         ]
         
         get(parameters) { (result, error) in
@@ -36,13 +38,13 @@ extension FlickrClient {
                 
                 guard let totalPhotos = photosDictionary[JSONResponseKeys.Total] as? String where Int(totalPhotos) > 0 else {
                     let userInfo = [NSLocalizedDescriptionKey: "No photo is found!"]
-                    completion(success: false, error: NSError(domain: "noPhoto", code: 0, userInfo: userInfo))
+                    completion(success: false, error: NSError(domain: "noPhoto", code: 00, userInfo: userInfo))
                     return
                 }
                 
                 guard let photosArray = photosDictionary[JSONResponseKeys.Photo] as? [[String: AnyObject]] else {
                     let userInfo = [NSLocalizedDescriptionKey: "No such key: photo"]
-                    completion(success: false, error: NSError(domain: "noSuchKey", code: 1, userInfo: userInfo))
+                    completion(success: false, error: NSError(domain: "noSuchKey", code: 01, userInfo: userInfo))
                     return
                 }
                 

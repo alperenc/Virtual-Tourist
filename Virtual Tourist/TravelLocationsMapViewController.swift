@@ -27,6 +27,10 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if let savedRegion = getMapRegion() {
+            mapView.setRegion(savedRegion, animated: true)
+        }
+        
         // Delegate initialization
         mapView.delegate = self
         fetchedResultsController.delegate = self
@@ -68,7 +72,7 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
         
     }()
     
-    // MARK: Actions
+    // MARK: Actions and Helpers
 
     @IBAction func editPins(sender: UIBarButtonItem) {
         editingMode = editingMode ? false : true
@@ -114,8 +118,42 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
             
             mapView.addAnnotation(pin)
             
-            FlickrClient.sharedInstance().getPhotosForPin(pin) { (success, error) in
-                
+            // Close in on the pin
+            mapView.setRegion(MKCoordinateRegion(center: pin.coordinate, span: MKCoordinateSpanMake(5.0, 5.0)), animated: true)
+            
+            // And save the map region
+            saveMapRegion()
+            
+            // Get photos for the pin as soon as the user drops it on the map
+            let flickrInstance = FlickrClient.sharedInstance()
+            
+            flickrInstance.getPhotosForPin(pin) { (success, error) in
+                if success {
+                    let moc = CoreDataStackManager.sharedInstance().managedObjectContext
+                    
+                    let photosFetch = NSFetchRequest(entityName: "Photo")
+                    photosFetch.predicate = NSPredicate(format: "location == %@", pin)
+                    photosFetch.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
+                    
+                    do {
+                        let photos = try moc.executeFetchRequest(photosFetch) as! [Photo]
+                        
+                        for photo in photos {
+                            flickrInstance.getImage(photo.imagePath) { (data, error) in
+                                if let imageData = data as? NSData {
+                                    photo.image = UIImage(data: imageData)
+                                } else {
+                                    print("Error downloading images: \(error)")
+                                }
+                                
+                            }
+                        }
+                        
+                    } catch {}
+                    
+                } else {
+                    print("Error getting photo info for this location: \(error)")
+                }
             }
             
         default:
@@ -123,6 +161,40 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
             
         }
         
+    }
+    
+    func saveMapRegion() {
+        
+        let regionDictionary = [
+            RegionKeys.Latitude: mapView.region.center.latitude,
+            RegionKeys.Longitude: mapView.region.center.longitude,
+            RegionKeys.LatitudeDelta: mapView.region.span.latitudeDelta,
+            RegionKeys.LongitudeDelta: mapView.region.span.longitudeDelta]
+        
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        userDefaults.setObject(regionDictionary, forKey: "mapRegion")
+        userDefaults.setValuesForKeysWithDictionary(regionDictionary)
+        
+    }
+
+    func getMapRegion() -> MKCoordinateRegion? {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        
+        guard let regionDictionary = userDefaults.dictionaryForKey("mapRegion") else {
+            return nil
+        }
+        
+        guard let latitude = regionDictionary[RegionKeys.Latitude] as? CLLocationDegrees,
+            let longitude = regionDictionary[RegionKeys.Longitude] as? CLLocationDegrees,
+            let latitudeDelta = regionDictionary[RegionKeys.LatitudeDelta] as? CLLocationDegrees,
+            let longitudeDelta = regionDictionary[RegionKeys.LongitudeDelta] as? CLLocationDegrees else {
+                return nil
+        }
+        
+        let center = CLLocationCoordinate2DMake(latitude, longitude)
+        let span = MKCoordinateSpanMake(latitudeDelta, longitudeDelta)
+        
+        return MKCoordinateRegion(center: center, span: span)
     }
     
     // MARK: Navigation
@@ -168,6 +240,10 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
         }
     }
     
+    func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        saveMapRegion()
+    }
+    
     // MARK: - NSFetchedResultsControllerDelegate
     
     func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
@@ -189,5 +265,18 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
         }
     }
 
+}
+
+extension TravelLocationsMapViewController {
+    
+    // MARK: Region keys
+    struct RegionKeys {
+        
+        static let Latitude = "latitude"
+        static let Longitude = "longitude"
+        static let LatitudeDelta = "latitudeDelta"
+        static let LongitudeDelta = "longitudeDelta"
+        
+    }
 }
 
