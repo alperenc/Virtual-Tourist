@@ -224,6 +224,6 @@ extension FlickrClient {
         static let LonMax = 90.0
         
         // MARK: Bounding Box Edge Length
-        static let EdgeLength = 1.0
+        static let EdgeLength = 0.5
     }
 }

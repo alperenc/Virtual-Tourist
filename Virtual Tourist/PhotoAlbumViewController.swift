@@ -85,6 +85,8 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         }
         
         selectedIndexes = [NSIndexPath]()
+        
+        updateBottomButton()
     }
     
     func updateBottomButton() {
@@ -252,12 +254,21 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         if photo.image != nil {
             cell.photoImageView.image = photo.image
             cell.activityIndicator.stopAnimating()
+            if let _ = selectedIndexes.indexOf(indexPath) {
+                cell.photoImageView.alpha = 0.5
+            }
         } else {
             cell.taskToCancel = FlickrClient.sharedInstance().getImage(photo.imagePath) { (imageData, error) in
                 if let imageData = imageData as? NSData {
+                    let image = UIImage(data: imageData)
+                    photo.image = image
+                    
                     dispatch_async(dispatch_get_main_queue()) {
                         cell.photoImageView.image = UIImage(data: imageData)
                         cell.activityIndicator.stopAnimating()
+                        if let _ = self.selectedIndexes.indexOf(indexPath) {
+                            cell.photoImageView.alpha = 0.5
+                        }
                     }
                 }
             }

@@ -104,23 +104,22 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
             // Get photos for the pin as soon as the user drops it on the map
             let flickrInstance = FlickrClient.sharedInstance()
             
-            flickrInstance.getPhotosForPin(pin) { (success, error) in
+            flickrInstance.getPhotosForPin(pin) { (success, photosError) in
                 if success {
-                    let moc = CoreDataStackManager.sharedInstance().managedObjectContext
                     
                     let photosFetch = NSFetchRequest(entityName: "Photo")
                     photosFetch.predicate = NSPredicate(format: "location == %@", pin)
                     photosFetch.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
                     
                     do {
-                        let photos = try moc.executeFetchRequest(photosFetch) as! [Photo]
+                        let photos = try self.sharedContext.executeFetchRequest(photosFetch) as! [Photo]
                         
                         for photo in photos {
-                            flickrInstance.getImage(photo.imagePath) { (data, error) in
+                            flickrInstance.getImage(photo.imagePath) { (data, imageError) in
                                 if let imageData = data as? NSData {
                                     photo.image = UIImage(data: imageData)
                                 } else {
-                                    print("Error downloading images: \(error)")
+                                    print("Error downloading images: \(imageError)")
                                 }
                                 
                             }
@@ -129,7 +128,7 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
                     } catch {}
                     
                 } else {
-                    print("Error getting photo info for this location: \(error)")
+                    print("Error getting photo info for this location: \(photosError)")
                 }
             }
             
@@ -202,6 +201,8 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
     }
     
     func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
+        
+        mapView.deselectAnnotation(view.annotation, animated: true)
         
         guard let pin = view.annotation as? Pin else {
             print("Selected annotation is not a Pin!")

@@ -108,13 +108,15 @@
                                                 <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vmm-hB-ylt">
                                                     <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                                 </imageView>
-                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="s4E-EQ-dtv">
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="s4E-EQ-dtv">
                                                     <rect key="frame" x="40" y="40" width="20" height="20"/>
                                                 </activityIndicatorView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
+                                            <constraint firstItem="s4E-EQ-dtv" firstAttribute="centerX" secondItem="cKP-Vp-854" secondAttribute="centerX" id="NYl-MC-wvC"/>
+                                            <constraint firstItem="s4E-EQ-dtv" firstAttribute="centerY" secondItem="cKP-Vp-854" secondAttribute="centerY" id="PF2-V3-J2d"/>
                                             <constraint firstAttribute="trailing" secondItem="vmm-hB-ylt" secondAttribute="trailing" id="do9-bI-XB9"/>
                                             <constraint firstItem="vmm-hB-ylt" firstAttribute="top" secondItem="cKP-Vp-854" secondAttribute="top" id="e8s-sz-7qm"/>
                                             <constraint firstItem="vmm-hB-ylt" firstAttribute="leading" secondItem="cKP-Vp-854" secondAttribute="leading" id="hWZ-Ql-sYb"/>
