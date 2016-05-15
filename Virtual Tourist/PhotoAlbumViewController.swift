@@ -69,7 +69,7 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
         
         CoreDataStackManager.sharedInstance().saveContext()
         
-        FlickrClient.sharedInstance().getPhotosForPin(pin) { (success, error) in
+        FlickrClient.sharedInstance().getPhotosForPin(pin, customPage: Int(arc4random_uniform(UInt32(pin.numberOfPhotoPages)))) { (success, error) in
         }
     }
     
@@ -190,7 +190,6 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
             
         case .Insert:
             print("Insert an item")
-            // We don't expect Photo instances to be inserted. But Core Data would notify us of insertions if any occured.
             // Here we are noting that a new Photo instance has been added to Core Data. We remember its index path
             // so that we can add a cell in "controllerDidChangeContent". Note that the "newIndexPath" parameter has
             // the index path that we want in this case
@@ -205,7 +204,8 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
             break
         case .Update:
             print("Update an item.")
-            // This can be useful if you want to respond to changes
+            // We don't expect Photo instances to change after they are created. But Core Data would
+            // notify us of changes if any occured. This can be useful if you want to respond to changes
             // that come about after data is downloaded. For example, when an images is downloaded from
             // Flickr in the Virtual Tourist app
             updatedIndexPaths.append(indexPath!)
@@ -263,8 +263,10 @@ class PhotoAlbumViewController: UIViewController, UICollectionViewDataSource, UI
                     let image = UIImage(data: imageData)
                     photo.image = image
                     
+                    CoreDataStackManager.sharedInstance().saveContext()
+                    
                     dispatch_async(dispatch_get_main_queue()) {
-                        cell.photoImageView.image = UIImage(data: imageData)
+                        cell.photoImageView.image = image
                         cell.activityIndicator.stopAnimating()
                         if let _ = self.selectedIndexes.indexOf(indexPath) {
                             cell.photoImageView.alpha = 0.5

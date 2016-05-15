@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" initialViewController="01J-lp-oVM">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -36,8 +36,8 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pin" translatesAutoresizingMaskIntoConstraints="NO" id="haK-mO-ySF">
                                 <rect key="frame" x="295" y="376" width="10" height="27"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="pin" translatesAutoresizingMaskIntoConstraints="NO" id="P8W-y7-t8U">
-                                <rect key="frame" x="370" y="509" width="10" height="28"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pin" translatesAutoresizingMaskIntoConstraints="NO" id="P8W-y7-t8U">
+                                <rect key="frame" x="355" y="526.5" width="10" height="27"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pin" translatesAutoresizingMaskIntoConstraints="NO" id="7KC-WH-DOg">
                                 <rect key="frame" x="130" y="526" width="10" height="27"/>
@@ -49,7 +49,7 @@
                                 <rect key="frame" x="475" y="436" width="10" height="27"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pin" translatesAutoresizingMaskIntoConstraints="NO" id="RC0-YN-rvO">
-                                <rect key="frame" x="535" y="376.5" width="10" height="27"/>
+                                <rect key="frame" x="535" y="376" width="10" height="27"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pin" translatesAutoresizingMaskIntoConstraints="NO" id="e85-gH-7D1">
                                 <rect key="frame" x="85" y="346" width="10" height="27"/>
@@ -89,6 +89,7 @@
                             <constraint firstItem="e85-gH-7D1" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" multiplier="0.3" id="AqS-b9-Nof"/>
                             <constraint firstItem="WOV-bs-Pe8" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" multiplier="0.4" id="DMf-Uf-cfy"/>
                             <constraint firstItem="AxD-s1-eSA" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" multiplier="0.8" id="E3V-5c-46f"/>
+                            <constraint firstItem="P8W-y7-t8U" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" multiplier="1.8" id="GaI-bx-BDc"/>
                             <constraint firstItem="ooU-hX-gdD" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" multiplier="1.6" id="KEr-L4-Tnh"/>
                             <constraint firstItem="Slg-fJ-hbh" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" multiplier="0.55" id="KS6-0V-3aw"/>
                             <constraint firstItem="W9T-my-yjM" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" multiplier="0.4" id="LJA-Ya-V1g"/>
@@ -105,6 +106,7 @@
                             <constraint firstItem="7KC-WH-DOg" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" multiplier="0.45" id="ZhT-xZ-aml"/>
                             <constraint firstItem="Slg-fJ-hbh" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" multiplier="1.4" id="aYq-O6-OhK"/>
                             <constraint firstItem="zP9-Rm-Hcg" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" multiplier="1.1" id="cYI-lp-JGe"/>
+                            <constraint firstItem="P8W-y7-t8U" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" multiplier="1.2" id="oZW-KN-XZg"/>
                             <constraint firstItem="zyW-8k-fki" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" multiplier="0.15" id="uaf-9K-Nsz"/>
                             <constraint firstItem="S5w-zy-b6h" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" multiplier="1.7" id="vgR-ej-swS"/>
                             <constraint firstItem="eQg-dz-60e" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" multiplier="0.5" id="whF-T4-4G0"/>

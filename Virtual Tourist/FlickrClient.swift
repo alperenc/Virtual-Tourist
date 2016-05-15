@@ -121,6 +121,7 @@ class FlickrClient: NSObject {
         var parsedResult: AnyObject!
         do {
             parsedResult = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+            
         } catch {
             let userInfo = [NSLocalizedDescriptionKey : "Could not parse the data as JSON: '\(data)'"]
             completionHandler(result: nil, error: NSError(domain: "parseJSONWithCompletionHandler", code: 1, userInfo: userInfo))
@@ -169,8 +170,8 @@ extension FlickrClient {
         static let Extras = "url_m"
         static let SafeSearch = "1"
         static let NoJSONCallback = "1"
-        static let Page = Int(arc4random_uniform(100))
-        static let PerPage = 25
+        static let PerPage = 20
+        static let MaxPages = 100
     }
     
     // MARK: Methods
@@ -204,6 +205,7 @@ extension FlickrClient {
         // MARK: Photos
         static let Photos = "photos"
         static let Total = "total"
+        static let Pages = "pages"
         
         // MARK: Photo
         static let Photo = "photo"

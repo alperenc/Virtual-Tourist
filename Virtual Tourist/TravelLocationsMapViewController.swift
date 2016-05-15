@@ -104,7 +104,7 @@ class TravelLocationsMapViewController: UIViewController, MKMapViewDelegate, NSF
             // Get photos for the pin as soon as the user drops it on the map
             let flickrInstance = FlickrClient.sharedInstance()
             
-            flickrInstance.getPhotosForPin(pin) { (success, photosError) in
+            flickrInstance.getPhotosForPin(pin, customPage: nil) { (success, photosError) in
                 if success {
                     
                     let photosFetch = NSFetchRequest(entityName: "Photo")

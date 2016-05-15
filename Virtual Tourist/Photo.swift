@@ -36,18 +36,18 @@ class Photo: NSManagedObject {
     
     var image: UIImage? {
         get {
-            return FlickrClient.Caches.imageCache.imageWithIdentifier(imagePath)
+            return FlickrClient.Caches.imageCache.imageWithIdentifier("\(id).jpg")
         }
         
         set {
-            FlickrClient.Caches.imageCache.storeImage(image, withIdentifier: imagePath)
+            FlickrClient.Caches.imageCache.storeImage(newValue, withIdentifier: "\(id).jpg")
         }
     }
     
     override func prepareForDeletion() {
         // Setting image to nil will trigger imageCache to delete image data from cache.
-        
         image = nil
+        
     }
 
 }

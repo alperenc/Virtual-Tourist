@@ -16,6 +16,7 @@ extension Pin {
 
     @NSManaged var latitude: Double
     @NSManaged var longitude: Double
+    @NSManaged var numberOfPhotoPages: Int
     @NSManaged var photos: [Photo]?
 
 }
